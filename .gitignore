@@ -1,0 +1,4 @@
+.vscode
+__pycache__
+client/src/proto
+server/proto

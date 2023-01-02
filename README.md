@@ -1,4 +1,4 @@
-TODO:
+Dacha Architecture:
 
 1. Stream
 	1. Get id from command line
@@ -37,8 +37,10 @@ TODO:
 	3. Live view
 
 
+TODO:
+
 Step 1:
-	1. Server find ip cameras by onvif sicovery
+	1. Server find ip cameras by ws-discovery
 	2. Client show camera list, snapshot, streams
 Step 2:
 	1. Client select camera and streams

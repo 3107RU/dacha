@@ -1,0 +1,26 @@
+:host {
+    padding: var(--std-padding);
+}
+
+[loader] {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: var(--std-margin);
+}
+
+[loader-button] {
+    flex: 0 0 auto;
+}
+
+[loader-loading] {
+    flex: 1 0 auto;
+    margin-left: var(--std-margin);
+    font: var(--status-font);
+}
+
+[loader-loading][hidden] {
+    visibility: hidden;
+    display: block !important;
+}

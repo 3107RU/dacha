@@ -1,17 +1,35 @@
+import os
+import sys
 import configparser
+from loguru import logger
 from flask import Flask, current_app, send_from_directory
-from flask_socketio import SocketIO
+import service
 
-if __name__ == '__main__':
+SERVER_VERSION = '1.0.0'
+CONFIG_FILE_NAME = 'server.ini'
+
+class NoConfigException(Exception):
+    def __init__(self, paths):
+        super().__init__("""Server config file '{}' not found in:\n{}""".format(
+            CONFIG_FILE_NAME, '\n'.join(paths)))
+
+@logger.catch
+def main():
+    logger.remove()
+    logger.add(sys.stdout, level='INFO') # TRACE, DEBUG, INFO, SUCESS, WARNING, ERROR, CRITICAL
+
+    logger.info('Server started')
+
     config = configparser.ConfigParser()
-    config.read('server.ini')
+    configPaths = [os.path.join(os.getcwd(), CONFIG_FILE_NAME), os.path.join(
+        sys.path[0], CONFIG_FILE_NAME)]
+    configPath = config.read(configPaths)
+    if not configPath:
+        raise NoConfigException(configPaths)
+    logger.info(f'Loaded config from {configPath}')
 
     app = Flask(__name__)
     app.config['SECRET_KEY'] = config['Settings']['SocketIoKey']
-    if config['Settings']['Mode'] == 'dev':
-        socketio = SocketIO(app, cors_allowed_origins="*", logger=True, engineio_logger=True)
-    else:
-        socketio = SocketIO(app)
 
     @app.route('/')
     def send_index():
@@ -21,8 +39,9 @@ if __name__ == '__main__':
     def send_client(path):
         return send_from_directory('static/client', path)
 
-    @socketio.on('message')
-    def handle_message(data):
-        print('received message: ' + data)
+    service.run(app, SERVER_VERSION, config['Settings']['Mode'])
 
-    socketio.run(app, debug=config['Settings']['Mode'] == 'dev')
+    logger.info('Server finished')
+
+if __name__ == '__main__':
+    main()
