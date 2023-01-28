@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import { ApiService, ApiEvent } from '../api.service'
+import { VideoPlayerComponent } from '../video-player/video-player.component'
 
 @Component({
   selector: 'app-camera',
@@ -14,7 +16,7 @@ export class CameraComponent implements OnInit, OnDestroy, OnChanges {
   loading = false
   settings: any
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.apiService.on(ApiEvent.OnvifCameraSettingsResult, this.OnvifCameraSettingsResult, this)
@@ -40,11 +42,15 @@ export class CameraComponent implements OnInit, OnDestroy, OnChanges {
     if (!this.device || !this.loading || data.device !== this.device) return
     this.loading = false
     this.settings = data
-    console.log(this.settings)
   }
 
   getHostName(device: string) {
     const url = new URL(device)
     return url.hostname
+  }
+
+  showVideo(profile: any) {
+    const modalRef = this.modalService.open(VideoPlayerComponent, { size: 'lg' })
+    modalRef.componentInstance.url = profile.url
   }
 }

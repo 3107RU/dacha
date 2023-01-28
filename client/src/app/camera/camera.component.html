@@ -11,6 +11,7 @@
             <div>{{profile.framerate}}</div>
             <div>{{profile.bitrate}}</div>
             <div>{{profile.url}}</div>
+            <button (click)='showVideo(profile)'>Video</button>
         </div>
     </div>
     <div *ngIf='!settings'>
