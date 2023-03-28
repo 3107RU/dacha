@@ -1,0 +1,46 @@
+{
+  "name": "dacha",
+  "version": "1.0.0",
+  "description": "Dacha Server",
+  "main": "main.js",
+  "type": "module",
+  "author": "alight@3107.ru",
+  "license": "ISC",
+  "nodemonConfig": {
+    "ext": "js",
+    "watch": [
+      "server",
+      "proto"
+    ]
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.cjs",
+    "start": "concurrently \"nodemon server/main.js\" \"npx webpack --watch --config webpack.dev.cjs\""
+  },
+  "dependencies": {
+    "css-loader": "^6.7.3",
+    "exit-hook": "^3.2.0",
+    "express": "^4.18.2",
+    "jimp": "^0.21.0",
+    "jsencrypt": "^3.3.2",
+    "onvif": "^0.6.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4",
+    "style-loader": "^3.3.1",
+    "urllib": "^3.10.1",
+    "winston": "^3.8.2",
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-react": "^7.18.6",
+    "babel-loader": "^9.1.2",
+    "concurrently": "^7.6.0",
+    "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.20",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}

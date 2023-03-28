@@ -1,4 +1,4 @@
 .vscode
-__pycache__
-client/src/proto
-server/proto
+node_modules
+package-lock.json
+build
